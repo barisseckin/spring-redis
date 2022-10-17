@@ -23,6 +23,7 @@ public class ProductService {
     }
 
     @CachePut(value = "products", key = "#request")
+    @CacheEvict(value = "products", allEntries = true)
     public ProductDto save(CreateProductRequest request) {
         Product product = Product.builder()
                 .name(request.getName())
@@ -80,8 +81,7 @@ public class ProductService {
          Product product =  productRepository.findProductByName(name)
                  .orElseThrow();
 
-         return ProductDto
-                 .builder()
+         return ProductDto.builder()
                  .name(product.getName())
                  .description(product.getDescription())
                  .price(product.getPrice())
