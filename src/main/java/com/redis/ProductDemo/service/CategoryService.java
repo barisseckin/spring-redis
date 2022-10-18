@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,9 +35,23 @@ public class CategoryService {
                 .build();
     }
 
+    public List<CategoryDto> getAllCategoryDto() {
+        return getAll().stream()
+                .map(category ->
+                        CategoryDto.builder()
+                                .name(category.getName())
+                                .createDate(category.getCreateDate())
+                                .build())
+                .collect(Collectors.toList());
+    }
+
     public void delete(String name) {
         Category category = categoryRepository.findCategoryByName(name)
                 .orElseThrow();
         categoryRepository.delete(category);
+    }
+
+    private List<Category> getAll() {
+        return new ArrayList<>((Collection<? extends Category>) categoryRepository.findAll());
     }
 }

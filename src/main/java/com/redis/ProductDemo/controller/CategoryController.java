@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/v1/api/category")
@@ -23,6 +25,12 @@ public class CategoryController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(categoryService.save(request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryDto>> getAll() {
+        return ResponseEntity
+                .ok(categoryService.getAllCategoryDto());
     }
 
     @DeleteMapping
