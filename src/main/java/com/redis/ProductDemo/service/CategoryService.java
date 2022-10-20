@@ -36,7 +36,8 @@ public class CategoryService {
     }
 
     public List<CategoryDto> getAllCategoryDto() {
-        return getAll().stream()
+        return new ArrayList<>((Collection<? extends Category>) categoryRepository.findAll())
+                .stream()
                 .map(category ->
                         CategoryDto.builder()
                                 .name(category.getName())
@@ -49,9 +50,5 @@ public class CategoryService {
         Category category = categoryRepository.findCategoryByName(name)
                 .orElseThrow();
         categoryRepository.delete(category);
-    }
-
-    private List<Category> getAll() {
-        return new ArrayList<>((Collection<? extends Category>) categoryRepository.findAll());
     }
 }
